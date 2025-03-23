@@ -22,28 +22,26 @@ void addValueToLinkedArray(celula *head, char string[]){
 
     new_node->next = NULL;
 
-    if(head == NULL){
-        head->next = new_node;
-        return;
-    }else{
-        while(current->next != NULL){
-            printf("Aqui");
-            current = current->next;
-        }
+    while(current->next != NULL){
+        printf("Aqui");
+        current = current->next;
     }
     current->next = new_node;
 }
 
-void printLinkedArray(celula *head){
+void printTasks(celula *head){
     celula *current = head;
+    int count = 1;
     while (current->next != NULL){
-        printf("%s -> ", current->content);
+        printf("%d - %s", count ,current->content);
+        current = current->next;
     }
-    printf("NULL");
+    count++;
 }
 
 int main(){
     head = malloc(sizeof(celula));
+    head->next = NULL;
     while (conter == 0){
         printf(" -- LISTA DE TAREFAS -- ");
         printf("O que deseja fazer?\n 1-Adicionar tarefa\n 2-Visualizar tarefas");
@@ -56,7 +54,7 @@ int main(){
                 printf("Tarefa adicionada com sucesso!");
                 break;
             case 2:
-                printLinkedArray(head);
+                printTasks(head);
                 break;
         }
     }
