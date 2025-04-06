@@ -2,62 +2,69 @@
 #include <stdio.h>
 #include <string.h>
 
-struct cel{
-    char *content;
-    struct cel *next;  
-};
+typedef struct celula{
+    char *s;
+    struct celula *seg; 
+}Celula;
 
-typedef struct cel celula;
-celula *head = NULL;
-int conter = 0;
-int key = 0;
-char task[300];
+int r = 0, first = 0;
+char buffer[100];
+Celula *head, *last;
 
-void addValueToLinkedArray(celula *head, char string[]){
-    celula *current = head;
-    celula *new_node = malloc(sizeof(celula));
-    
-    new_node->content = (char *)malloc(100 * sizeof(char));
-    strcpy(new_node->content, string);
-
-    new_node->next = NULL;
-
-    while(current->next != NULL){
-        printf("Aqui");
-        current = current->next;
-    }
-    current->next = new_node;
+void initializeHead(){
+    head = malloc(sizeof(Celula));
+    head->s = NULL;
+    head->seg = NULL;
+    last = head;
+    first = 1;
 }
 
-void printTasks(celula *head){
-    celula *current = head;
-    int count = 1;
-    while (current->next != NULL){
-        printf("%d - %s", count ,current->content);
-        current = current->next;
+void addTask(Celula **last, char *task) {
+    Celula *new = malloc(sizeof(Celula));
+    new->s = malloc(strlen(task) + 1);
+    strcpy(new->s, task);
+    new->seg = NULL;
+    (*last)->seg = new;
+    *last = new; 
+}
+
+void printTasks(Celula *head){
+    Celula *current;
+    current = head->seg;
+    int numeroTask = 1;
+    printf("\nLista de Tarefas");
+    while(current->s != NULL){
+        if(current->seg == NULL){
+            printf("\n%d - %s\n\n", numeroTask, current->s);
+            break;
+        }
+        printf("\n%d - %s", numeroTask, current->s);
+        current = current->seg;
+        numeroTask++;
     }
-    count++;
 }
 
 int main(){
-    head = malloc(sizeof(celula));
-    head->next = NULL;
-    while (conter == 0){
-        printf(" -- LISTA DE TAREFAS -- ");
-        printf("O que deseja fazer?\n 1-Adicionar tarefa\n 2-Visualizar tarefas");
-        scanf("%d", &key);
-        switch(key){
+    printf("---- Bem vindo a lista de tarefas! ----");
+    while(1){
+        printf("\n1 - Adicionar tarefa\n2 - Ver a Lista\n3 - Sair");
+        scanf(" %d" , &r);
+        getchar();
+        switch(r){
             case 1:
-                printf("Digite a tarefa que deseja adicionar!");
-                scanf("%s", task);
-                addValueToLinkedArray(head, task);
-                printf("Tarefa adicionada com sucesso!");
+                if(!first)
+                    initializeHead();
+                printf("Digite a tarefa para adicionar!");
+                scanf(" %[^\n]", buffer);
+                addTask(&last, buffer);
                 break;
             case 2:
                 printTasks(head);
                 break;
+            default:
+                return 0;
         }
-    }
+    }   
     
     return 0;
 }
