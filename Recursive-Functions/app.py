@@ -9,20 +9,27 @@ def rCount(n):
     print(n)
     rCount(n - 1)
 
-
-
-
 def countDigits(n):
     if n < 10:
         return 1
     return 1 + countDigits(n // 10)
 
-
-
 def multiplicar(mult, num):
     if mult == 1:
         return num
-
     return num + multiplicar(mult - 1, num)
 
-print(multiplicar(10 ,  4))
+def inverterString(s):
+    if len(s) == 0:
+        return ""
+    return inverterString(s[1:]) + s[0]
+
+
+def binario(n):
+    if n < 2:
+        return str(n)
+    return binario(n // 2) + str(n % 2) 
+
+
+
+
